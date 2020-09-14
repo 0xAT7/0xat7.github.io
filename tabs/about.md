@@ -8,4 +8,4 @@ title: About
 # MIT License
 ---
 
-> **Who Am I**: I'm `AT7` a security researcher, web and mobile application penetration tester, bug bounty hunter, vulnerable machines and web challenges creator, and ctf player.
+> **Who Am I**:   I'm `AT7` a security researcher, web and mobile application penetration tester, bug bounty hunter, vulnerable machines and web challenges creator, and ctf player.
