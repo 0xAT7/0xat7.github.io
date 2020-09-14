@@ -1,5 +1,5 @@
 ---
-title: HackTheBox Remote Writeup
+title: ASCWG Final Round Machine Writeup
 published: true
 ---
 
