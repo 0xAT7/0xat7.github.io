@@ -31,7 +31,7 @@ published: true
 
 ![hosts](https://i.ibb.co/TWGWPfw/2.png)
 
-# []() Checking the Web-Page on 8078
+**Checking the Web-Page on 8078**
 
 * Nothing is here.
 
@@ -45,7 +45,7 @@ published: true
 
 ![](https://i.ibb.co/xXXKb94/5.png)
 
-* CVE-2019-9978 RCE in Social WarFare < 3.5.3.
+# []() CVE-2019-9978 RCE in Social WarFare < 3.5.3.
 
 ![](https://i.ibb.co/t8VYstH/6.png)
 
@@ -67,6 +67,8 @@ published: true
 
 ![](https://i.ibb.co/10bL7Pk/9.png)
 
+# []() Johny user
+
 * I tried **cd /home/johny/unknown_path/** and worked for me!.
 
 * Listing it with **ls -la** and I found **.ssh** directory which have ssh public and private key.
@@ -77,10 +79,13 @@ published: true
 
 ![](https://i.ibb.co/Y0VfczG/11.png)
 
+# []() Root flag
+
 > Listing its directory and I found an exploitable program which is basically doing **ls /root/root.txt**
 
 * Doing path hijacking and I got the root flag.
 ![](https://i.ibb.co/K2sfxXk/12.png)
+
 
 > * Explaining **Path Hijacking**:
 
