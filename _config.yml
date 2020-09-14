@@ -20,7 +20,7 @@ description: >-                        # used by seo meta and the atom feed
 # Replace with the website url, e.g. 'https://username.github.io'
 url: 'protocol://domain'
 
-author: your_full_name                  # change to your full name
+author: 0xAT7                  # change to your full name
 
 avatar: /assets/img/sample/avatar.jpg   # support internet resources
 
@@ -124,8 +124,8 @@ defaults:
       path: _drafts
     values:
       comments: false
-   -
-     scope:
+  -
+    scope:
       path: tags
     values:
       tab_active: Tags
