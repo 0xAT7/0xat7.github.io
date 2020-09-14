@@ -3,8 +3,9 @@ title: ASCWG Final Round Machine Writeup
 published: true
 ---
 
-> ![logo](https://i.ibb.co/P9ByhXj/logo.png)
+> ![logo](https://www.ascyberwargames.com/wp-content/uploads/2020/01/MainLogo.png)
 
+* Before we start, I will try to explain everything as a player since I'm the creator of this machine. 
 # []() Methodology
 
 * Nmap scan
@@ -16,87 +17,19 @@ published: true
 
 # []() Nmap Scan
 
-* as always, i'll do nmap scan to find out which services running in this machine.
+* I will start with nmap scan to find which services are running on this machine.
 
-> i found some useful ports like 21 for ftp and **Anonymous FTP login allowed**, 80 for **Microsoft HTTPAPI**.
+> I found some open ports. 22,139,445,8078 **Apache Running on**, 8078.
 
-> **nmap -sC -sV -p- -oN scan.txt 10.10.10.180**
+* The samba was just a rabbit hole.
 
-```ruby
+![nmap](https://i.ibb.co/BtkVqCH/1.png)
 
-Nmap scan report for 10.10.10.180
-Host is up (0.44s latency).
-Not shown: 65519 closed ports
-PORT      STATE SERVICE       VERSION
-21/tcp    open  ftp           Microsoft ftpd
-|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
-| ftp-syst: 
-|_  SYST: Windows_NT
-80/tcp    open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-title: Home - Acme Widgets
-111/tcp   open  rpcbind       2-4 (RPC #100000)
-| rpcinfo: 
-|   program version    port/proto  service
-|   100000  2,3,4        111/tcp   rpcbind
-|   100000  2,3,4        111/tcp6  rpcbind
-|   100000  2,3,4        111/udp   rpcbind
-|   100000  2,3,4        111/udp6  rpcbind
-|   100003  2,3         2049/udp   nfs
-|   100003  2,3         2049/udp6  nfs
-|   100003  2,3,4       2049/tcp   nfs
-|   100003  2,3,4       2049/tcp6  nfs
-|   100005  1,2,3       2049/tcp   mountd
-|   100005  1,2,3       2049/tcp6  mountd
-|   100005  1,2,3       2049/udp   mountd
-|   100005  1,2,3       2049/udp6  mountd
-|   100021  1,2,3,4     2049/tcp   nlockmgr
-|   100021  1,2,3,4     2049/tcp6  nlockmgr
-|   100021  1,2,3,4     2049/udp   nlockmgr
-|   100021  1,2,3,4     2049/udp6  nlockmgr
-|   100024  1           2049/tcp   status
-|   100024  1           2049/tcp6  status
-|   100024  1           2049/udp   status
-|_  100024  1           2049/udp6  status
-135/tcp   open  msrpc         Microsoft Windows RPC
-139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
-445/tcp   open  microsoft-ds?
-2049/tcp  open  mountd        1-3 (RPC #100005)
-5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-47001/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-49664/tcp open  msrpc         Microsoft Windows RPC
-49665/tcp open  msrpc         Microsoft Windows RPC
-49666/tcp open  msrpc         Microsoft Windows RPC
-49667/tcp open  msrpc         Microsoft Windows RPC
-49678/tcp open  msrpc         Microsoft Windows RPC
-49679/tcp open  msrpc         Microsoft Windows RPC
-49680/tcp open  msrpc         Microsoft Windows RPC
-Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+# []() Enumerating the machine
 
-Host script results:
-|_clock-skew: 2m36s
-| smb2-security-mode: 
-|   2.02: 
-|_    Message signing enabled but not required
-| smb2-time: 
-|   date: 2020-04-10T20:52:24
-|_  start_date: N/A
+* Adding ascwg.com to the /etc/hosts since its the name of the machine.
 
-
-```
-
-# []() FTP Anonymous Login
-
-> **first thing we should login to ftp and catch any important files but i didn't find anything.**
-
-| Command        | Username          | Password |
-|:-------------|:------------------|:------|
-| ftp 10.10.10.80           | anonymous | anonymous  |
-
-![ftp](https://i.ibb.co/1sr2KmP/ftp.png)
+![hosts](https://i.ibb.co/TWGWPfw/2.png)
 
 # []() Checking the Web-Page
 
