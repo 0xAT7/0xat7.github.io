@@ -38,8 +38,8 @@ social:
     - https://twitter.com/0xAT7      # change to your twitter homepage
     - https://github.com/0xAT7       # change to your github homepage
     # Uncomment below to add more social links
-     - https://www.facebook.com/0xAT7x
-     - https://www.linkedin.com/0xat7/
+    - https://www.facebook.com/0xAT7x
+    - https://www.linkedin.com/0xat7/
 
 google_site_verification: google_meta_tag_verification # change to your verification string
 
