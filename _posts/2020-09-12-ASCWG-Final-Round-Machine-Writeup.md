@@ -95,7 +95,7 @@ published: true
 
 * Doing **export PATH=/tmp:$PATH** made the **/tmp** as the first path env, so when the system search about **ls**
 
-* It will find it inside **/tmp** which is by the way a **cd** command. 
+* It will find it inside **/tmp** which is by the way a **cat** command. 
 
 * Thanks for reading hope you enjoyed this.
 
