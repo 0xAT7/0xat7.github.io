@@ -13,9 +13,9 @@ title: 0xAT7                          # the main title
 tagline: a security researcher, web and mobile application penetration tester, bug bounty hunter, vulnerable machines and web challenges creator, and ctf player.  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A minimal, portfolio, sidebar,
-  bootstrap Jekyll theme with responsive web design
-  and focuses on text presentation.
+  0xAT7, Egyptian Security Researcher,
+  
+  
 
 # Replace with the website url, e.g. 'https://username.github.io'
 url: 'https://0xat7.github.io'
